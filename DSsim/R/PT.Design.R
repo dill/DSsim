@@ -25,6 +25,7 @@ setClass(Class = "PT.Design",
 
 #' @rdname generate.transects-methods
 #' @importFrom utils read.table
+#' @importFrom shapefiles read.shapefile
 #' @export
 setMethod(
   f="generate.transects",
