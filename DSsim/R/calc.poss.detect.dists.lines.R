@@ -19,7 +19,7 @@ calc.poss.detect.dists.lines <- function(population, survey, perp.truncation, pl
   spl <- SpatialLinesDataFrame(SpatialLines(l), transects)
 
   # make a truncation distance buffer around the line
-  spl_b <- gBuffer(spl, width=perp.truncation)
+  spl_b <- gBuffer(spl, width=perp.truncation, capStyle="SQUARE")
 
   # which points are within the buffer
   #available_obs <- gIntersection(spl_b, ind_sp)
@@ -35,15 +35,15 @@ calc.poss.detect.dists.lines <- function(population, survey, perp.truncation, pl
     ddists <- dist2line(individuals[,c("x","y")][available_ind, ,drop=FALSE],
                        this_line)$distance
     ddists <- abs(ddists)
-    ddists <- ddists[ddists <= perp.truncation]
+    #ddists <- ddists[ddists <= perp.truncation]
 
     # if there is a distance, add it to the data
     if(length(ddists)==0) next
-    ii <- which.min(ddists)
-    td <- data.frame(object = available_ind[ii],
-                     transect.ID = tr,
-                     distance = ddists[ii],
-                     available = TRUE)
+    td <- data.frame(object = individuals$object[available_ind],
+                     transect.ID = rep(tr, length(ddists)),
+                     distance = ddists,
+                     available = rep(TRUE, length(ddists)))
+    td <- td[td$distance <= perp.truncation, , drop=FALSE]
     dists <- rbind(dists, td)
   }
 
