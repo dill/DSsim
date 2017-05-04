@@ -44,6 +44,10 @@ calc.poss.detect.dists.lines <- function(population, survey, perp.truncation, pl
                      distance = ddists,
                      available = rep(TRUE, length(ddists)))
     td <- td[td$distance <= perp.truncation, , drop=FALSE]
+
+    # if td is > 1 row, randomly pick a segment that it comes from
+    # otherwise we get duplicates
+    td <- td[sample(1:nrow(td), 1), ]
     dists <- rbind(dists, td)
   }
 
