@@ -34,7 +34,6 @@ calc.poss.detect.dists.lines <- function(population, survey, perp.truncation, pl
     # use Devin's code to get perp distances
     ddists <- dist2line(individuals[,c("x","y")][available_ind, ,drop=FALSE],
                        this_line)$distance
-    ddists <- abs(ddists)
     #ddists <- ddists[ddists <= perp.truncation]
 
     # if there is a distance, add it to the data
